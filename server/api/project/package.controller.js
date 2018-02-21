@@ -20,6 +20,8 @@ var errorHandler = require('../common').errorHandler;
 var env = require('../../config/environment');
 var GITDIR = env.git.projects;
 
+var fs = require('fs');
+
 
 function tmpDirPromise() {
   return new Promise(function(resolve, reject) {
@@ -82,8 +84,17 @@ function npmPackPromise2(fromDir) {
   });
 }
 
+// TEST 
+// Create an extra file that simulates the state.
+function addStateFile(dir){
+  fs.appendFile(path.resolve(dir, './state.json'), '', (err) => {
+    if(err)throw err;
+  });
+}
+
 function createPackage(project) {
   var d = path.resolve(GITDIR, project.name);
+  addStateFile(d);
   return npmPackPromise(d);
 }
 

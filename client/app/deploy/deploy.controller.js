@@ -44,7 +44,8 @@ angular.module('koodainApp')
         showGridFooter: true,
         columnDefs: [
             {field: 'name'},
-            {name: 'Location', field: 'location.tag'},     
+	    {name: 'Url', field: 'url'},
+            //{name: 'Location', field: 'location.tag'},     
             {name: 'Capabilities', field: 'classes.toString()'},
             {name: 'Installed apps', field: 'getAppNames()'}
         ]
