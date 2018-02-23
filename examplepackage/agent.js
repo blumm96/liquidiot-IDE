@@ -54,6 +54,7 @@ module.exports = function Agent(iotApp, emitter){
                 console.log(startMainMessage);
             }
             timer = true;
+	    setStateVariables();
             iotApp.$task(function(restartMainMessage){
                 if(restartMainMessage){
                     console.log(restartMainMessage);
@@ -80,4 +81,26 @@ module.exports = function Agent(iotApp, emitter){
             });
         }
     };
+    
+    // Set variables to statefile variable values
+    function setStateVariables(){
+      
+      var fs = require('fs');
+      var path = require('path');
+      // If the state.json does not exist, this is a normal application deployment.
+      if(!fs.existsSync(path.resolve(__dirname, 'state.json')){
+	console.log("No liquid transfer.");
+	return;
+      }
+      
+      // If it does exist, change the variables to those that were passed.
+      var obj = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'state.json'),'utf8'));
+      for(var key in obj){
+	if(obj.hasOwnProperty(key)){
+	  iotApp[key] = obj[key];
+	}
+      }
+      
+    }
+    
 }

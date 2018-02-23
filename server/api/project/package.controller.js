@@ -87,7 +87,8 @@ function npmPackPromise2(fromDir) {
 // TEST 
 // Create an extra file that simulates the state.
 function addStateFile(dir){
-  fs.appendFile(path.resolve(dir, './state.json'), '', (err) => {
+  // Add test data.
+  fs.writeFile(path.resolve(dir, './state.json'), '{"guyName":"I am a new value!"}', (err) => {
     if(err)throw err;
   });
 }

@@ -83,7 +83,49 @@
         .col-sm-12
             span
         
-
+.container(ng-if="tab === 'liquid'" id="LiquidView" ng-controller="LiquidCtrl")
+    br
+    .row 
+        .col-sm-6
+            <strong>Installed applications on devices</strong>
+            table.table.table-striped.table-bordered(st-table="displayed" st-safe-src="installedApps" )
+                thread
+                    tr
+                        th(select-all-rows all-data-rows="installedApps"  selected-rows="selectedAppInstances" ng-click="selectAllApps()")
+                        th Name
+                        th Version
+                        th Device
+                        th Status
+                        th URL
+                    tr  
+                        th                          
+                        th
+                            input(st-search="name" placeholder="app name" class="input-sm form-control" type="search") 
+                        th
+                            input(st-search="version" placeholder="version" class="input-sm form-control" type="search") 
+                        th
+                            input(st-search="device.name" placeholder="host device" class="input-sm form-control" type="search") 
+                        th
+                            input(st-search="status" placeholder="app status" class="input-sm form-control" type="search") 
+                        th
+                            input(st-search="device.url" placeholder="url" class="input-sm form-control" type="search")
+                tbody
+                    tr(ng-repeat="app in displayed")
+                        td(select-row row-data="app" ng-click="selectApp(app)")
+                        td {{app.name.replace('liquidiot-', '')}}
+                        td {{app.version}}
+                        td {{app.device.name}}
+                        td {{app.status}}
+                        td {{app.device.url}}
+                        td 
+                            .btn-group(ng-if="app.status !=='installed'", role="group")                                
+                                button.btn.btn-primary(type="submit", ng-click="sequential(app.device, app)") Sequential
+          .col-sm-6
+            <strong>LiquidIoT devices</strong>
+            .grid(id='devGrid', ui-grid='gridOptions' ui-grid-selection ui-grid-resize-columns)
+    .row
+        .col-sm-12
+            span
         
 
 script(type="text/ng-template", id="deploysheet.html")
