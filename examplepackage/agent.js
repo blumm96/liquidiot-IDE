@@ -87,6 +87,12 @@ module.exports = function Agent(iotApp, emitter){
       
       var fs = require('fs');
       var path = require('path');
+      // If the state.json does not exist, this is a normal application deployment.
+      if(!fs.existsSync(path.resolve(__dirname, 'state.json')){
+	console.log("No liquid transfer.");
+	return;
+      }
+      
       var obj = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'state.json'),'utf8'));
       
       for(var key in obj){
