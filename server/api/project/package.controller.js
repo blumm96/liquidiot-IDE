@@ -84,18 +84,8 @@ function npmPackPromise2(fromDir) {
   });
 }
 
-// TEST 
-// Create an extra file that simulates the state.
-function addStateFile(dir){
-  // Add test data.
-  fs.writeFile(path.resolve(dir, './state.json'), '{"guyName":"I am a new value!"}', (err) => {
-    if(err)throw err;
-  });
-}
-
 function createPackage(project) {
   var d = path.resolve(GITDIR, project.name);
-  addStateFile(d);
   return npmPackPromise(d);
 }
 

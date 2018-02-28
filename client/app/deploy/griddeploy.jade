@@ -116,16 +116,37 @@
                         td {{app.version}}
                         td {{app.device.name}}
                         td {{app.status}}
-                        td {{app.device.url}}
-                        td 
-                            .btn-group(ng-if="app.status !=='installed'", role="group")                                
-                                button.btn.btn-primary(type="submit", ng-click="sequential(app.device, app)") Sequential
+                        td {{app.device.url}}                             
+                                
           .col-sm-6
             <strong>LiquidIoT devices</strong>
-            .grid(id='devGrid', ui-grid='gridOptions' ui-grid-selection ui-grid-resize-columns)
+            table.table.table-striped.table-bordered(st-table="displayedDevs" st-safe-src="devList" )
+                thread
+                    tr
+                        th(select-all-rows all-data-rows="devList"  selected-rows="selectedDevs" ng-click="selectAllDevs()")
+                        th Name
+                        th URL
+                        th Capabilities
+                    tr  
+                        th                          
+                        th
+                            input(st-search="name" placeholder="name" class="input-sm form-control" type="search") 
+                        th
+                            input(st-search="version" placeholder="url" class="input-sm form-control" type="search") 
+                        th
+                            input(st-search="device.name" placeholder="capabilities" class="input-sm form-control" type="search") 
+                tbody
+                    tr(ng-repeat="dev in displayedDevs")
+                        td(select-row row-data="dev" ng-click="selectDev(dev)")
+                        td {{dev.name}}
+                        td {{dev.url}}
+                        td {{dev.classes.toString()}}
     .row
         .col-sm-12
             span
+    .row
+        .col-sm-12
+            button.btn.btn-primary(ng-click="sequential()") Sequential
         
 
 script(type="text/ng-template", id="deploysheet.html")
