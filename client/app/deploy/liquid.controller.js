@@ -165,24 +165,65 @@ angular.module('koodainApp')
     }
   
   // A liquid transfer needs to be initiated.
-  $scope.sequential = function() {
-	
-	var url = $scope.selectedAppInstances[0].origin_url + '/transfer/';
-        return $http({
-          url: devicePipeUrl(url), // URL that needs to transfer the application.
-          method: 'POST',
-	  json: true,
-	  data: {id: $scope.selectedAppInstances[0].id, url: $scope.selectedDevs}, // The id of the app that needs to be transferred and the destinations.
-        })
-        .then(function(res) {
-          Notification.success("The app with id " + $scope.selectedAppInstances[0].id + " in " + $scope.selectedAppInstances[0].origin_url + " was succesfully sequentially transferred.");
-          $scope.selectedAppInstances=[];
-	  $scope.selectedDevs=[];
-	  $scope.loadDevices();
-        })
-        .catch(function(error){
-	  console.log(error);
-          Notification.error("Connection to the application was not succeccfull.");
-        });
+  // The source application should not be deleted.
+  $scope.fork = function() {
+    
+    sequentialTransfer(false);
+	    
  };
+ 
+ // A liquid transfer needs to be initiated.
+ // The source application should be deleted.
+  $scope.migrate = function() {
+    
+    sequentialTransfer(true);
+	    
+ };
+ 
+  // Do a sequential transfer with an optional delete request.
+  function sequentialTransfer(var del){
+    
+    var successes = 0;
+    var failures = 0;
+	
+    Promise.all($scope.selectedAppInstances.map(function(selectedAppInstance){
+      var url = selectedAppInstance.origin_url + '/transfer/';
+      return $http({
+	url: devicePipeUrl(url), // URL that needs to transfer the application.
+	method: 'POST',
+	json: true,
+	data: {id: selectedAppInstance.id, url: $scope.selectedDevs, del: del}, // The id of the app that needs to be transferred and the destinations + if the app should be deleted.
+      })
+      .then(function(res) {
+	Notification.success("The app with id " + selectedAppInstance.id + " in " + selectedAppInstance.origin_url + " was succesfully sequentially transferred.");
+	console.log(res);
+	console.log(res.data);
+	if(res.data == true){
+	  successes+=1;
+	}else{
+	  failures+=1;
+	}
+      })
+      .catch(function(error){
+	console.log(error);
+	Notification.error("Connection to the application was not succeccfull.");
+	failures+=1;
+      });
+    })).then(function(){
+      if(failures == 0){
+	Notification.success("All " + successes + " were succesfully sequentially transferred.");
+      } else if(successes != 0){
+	Notification.success(successes + " were succesfully sequentially transferred.");
+	Notification.error(failures + " sequential transfers failed.");
+      } else{
+	Notification.error("All " + failures + " sequential transfers failed.");
+      }
+    });
+    
+    $scope.selectedAppInstances=[];
+    $scope.selectedDevs=[];
+    $scope.loadDevices();
+    
+  }
+ 
 });
