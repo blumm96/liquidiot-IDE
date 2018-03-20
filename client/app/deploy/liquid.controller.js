@@ -1,3 +1,12 @@
+/**
+ * Copyright (c) TUT Tampere University of Technology 2017-2018
+ * All rights reserved.
+ *
+ * Main author(s):
+ * Casper Vranken <caspervranken@gmail.com>
+ */
+
+
 'use strict';
 
 angular.module('koodainApp')
@@ -181,7 +190,7 @@ angular.module('koodainApp')
  };
  
   // Do a sequential transfer with an optional delete request.
-  function sequentialTransfer(var del){
+  function sequentialTransfer(del){
     
     var successes = 0;
     var failures = 0;
@@ -225,5 +234,25 @@ angular.module('koodainApp')
     $scope.loadDevices();
     
   }
+  
+  $scope.clone = function(){
+    
+    var successes = 0;
+    var failures = 0;
+	
+    Promise.all($scope.selectedAppInstances.map(function(selectedAppInstance){
+      var url = selectedAppInstance.origin_url + '/clone/';
+      return $http({
+	url: devicePipeUrl(url), // URL that needs to transfer the application.
+	method: 'POST',
+	json: true,
+	data: {id: selectedAppInstance.id, url: $scope.selectedDevs} // The id of the app that needs to be cloned and the destinations.
+      })}));
+    
+    $scope.selectedAppInstances=[];
+    $scope.selectedDevs=[];
+    $scope.loadDevices();
+    
+  };
  
 });

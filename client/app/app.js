@@ -30,7 +30,8 @@ angular.module('koodainApp', [
   //'ngSanitize'
 ])
     //.constant('deviceManagerUrl', 'http://resource-registry-node-mongo2.paas.msv-project.com')
-    .constant('deviceManagerUrl', 'http://130.230.142.101:3001')
+    //.constant('deviceManagerUrl', 'http://130.230.142.101:3001')
+    .constant('deviceManagerUrl', 'http://130.230.142.101:3002')
     //.constant('deviceManagerUrl', 'http://rr-arango-siotad.paas.msv-project.com')
     //.constant('deviceManagerUrl', 'http://resource-registry-impact-ide.paas.msv-project.com')
   //.constant('deviceManagerUrl', 'http://localhost:3001')

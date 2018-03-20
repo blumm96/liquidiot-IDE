@@ -7,7 +7,7 @@
  */
 
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
-$fa-font-path: "/bower_components/font-awesome/fonts";
+$fa-font-path: "/bower_components/font-awesome/webfonts";
 
 
 $tut-orange: #ff9b00;
@@ -18,7 +18,7 @@ $tut-light-green: #b4dc00;
 $liot-bg-lightgrey: #f2f2f2;
 
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
-@import 'font-awesome/scss/font-awesome';
+@import 'font-awesome/scss/fontawesome';
 //@import 'font-awesome/css/font-awesome';
 
 /**

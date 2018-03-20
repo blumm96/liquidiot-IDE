@@ -97,6 +97,7 @@ function initProjectFiles(project) {
     './examplepackage/main.js',
     './examplepackage/package.json',
     './examplepackage/liquidiot.json',
+    './examplepackage/liquid-options.json',
   ];
   var vars = {
     project: project,
