@@ -247,7 +247,25 @@ angular.module('koodainApp')
 	method: 'POST',
 	json: true,
 	data: {id: selectedAppInstance.id, url: $scope.selectedDevs} // The id of the app that needs to be cloned and the destinations.
-      })}));
+      }).then(function(res) {
+	Notification.success("The app with id " + selectedAppInstance.id + " in " + selectedAppInstance.origin_url + " was succesfully cloned.");
+	console.log("SUCCES");
+	console.log(res);
+	console.log(res.data);
+	if(res.data == true){
+	  successes+=1;
+	}else{
+	  failures+=1;
+	}
+      })
+      .catch(function(error){
+	console.log("HOLD HOLD HOLD");
+	console.log(error);
+	Notification.error("Connection to the application was not succeccfull.");
+	failures+=1;
+      });
+      
+    }));
     
     $scope.selectedAppInstances=[];
     $scope.selectedDevs=[];
